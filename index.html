@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מיכאל לוריה — צילום וידאו וסטילס לחתונות</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400&family=Heebo:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black:   #0A0A0A;
+  --charcoal:#1C1C1C;
+  --gray:    #8A8A8A;
+  --gold:    #7BADA8;
+  --white:   #FFFFFF;
+  --ease:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --pill-h:  52px;
+  --pill-top:24px;
+}
+
+html {
+  background: var(--black);
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold) var(--black);
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--black); }
+::-webkit-scrollbar-thumb { background: var(--gold); }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Heebo', sans-serif;
+  font-weight: 300;
+  line-height: 1.8;
+  overflow-x: hidden;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+body.loaded { opacity: 1; }
+
+/* ── SKIP LINK ── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  right: 16px;
+  background: var(--gold);
+  color: var(--black);
+  padding: 8px 16px;
+  font-family: 'Heebo', sans-serif;
+  font-size: 13px;
+  z-index: 9999;
+  text-decoration: none;
+}
+.skip-link:focus { top: 8px; }
+
+/* ── FOCUS ── */
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+/* ═══════════════════════════════════════════
+   TUBELIGHT PILL NAV
+═══════════════════════════════════════════ */
+
+
+/* Fixed nav logo — appears with pill on scroll */
+.site-logo-nav {
+  position: fixed;
+  top: var(--pill-top);
+  left: 24px;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s var(--ease);
+  display: flex;
+  align-items: center;
+  height: var(--pill-h);
+}
+.site-logo-nav.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+.site-logo-nav img {
+  height: 32px;
+  width: auto;
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
+}
+.site-logo-nav:hover img { opacity: 1; }
+
+@media (max-width: 768px) {
+  .site-logo-nav { display: none; }
+}
+
+/* Pill nav — centered, hidden until scroll */
+.nav-pill-wrap {
+  position: fixed;
+  top: var(--pill-top);
+  left: 50%;
+  transform: translateX(-50%) translateY(-16px);
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
+}
+.nav-pill-wrap.visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateX(-50%) translateY(0);
+}
+
+.nav-pill {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: rgba(10,10,10,0.35);
+  border: 1px solid rgba(123,173,168,0.18);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 100px;
+  padding: 5px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.4);
+}
+
+.nav-pill-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: 100px;
+  text-decoration: none;
+  font-family: 'Heebo', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.6);
+  white-space: nowrap;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: color 0.3s ease, background 0.3s ease;
+}
+
+.nav-pill-link:hover { color: rgba(255,255,255,0.9); }
+
+.nav-pill-link.active {
+  color: var(--gold);
+  background: rgba(123,173,168,0.07);
+}
+
+/* Tubelight bar */
+.nav-pill-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 28px;
+  height: 2px;
+  background: var(--gold);
+  border-radius: 0 0 3px 3px;
+  transition: transform 0.4s var(--ease);
+  transform-origin: center;
+}
+.nav-pill-link.active::before {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* Tubelight glow bloom */
+.nav-pill-link::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 18px;
+  background: radial-gradient(ellipse at top, rgba(123,173,168,0.4) 0%, transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.nav-pill-link.active::after { opacity: 1; }
+
+/* Icon (mobile) */
+.nav-pill-link .pill-icon { display: none; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.nav-pill-link .pill-icon--fill { fill: currentColor; stroke: none; }
+
+/* Mobile — pill stays at top, icons instead of labels */
+@media (max-width: 768px) {
+  .nav-pill-wrap { top: 16px; transform: translateX(-50%) translateY(-16px); }
+  .nav-pill-wrap.visible { transform: translateX(-50%) translateY(0); }
+  .nav-pill-link { padding: 10px 14px; }
+  .nav-pill-link .pill-label { display: none; }
+  .nav-pill-link .pill-icon { display: block; }
+}
+
+@media (max-width: 480px) {
+  .nav-pill-link { padding: 10px 10px; }
+  .nav-pill { gap: 0; }
+}
+
+/* ── HERO ── */
+#hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.hero-video-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 120% 75% at 0% 100%, rgba(10,10,10,1) 0%, rgba(10,10,10,0.85) 50%, transparent 100%),
+    linear-gradient(to top, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.18) 55%, transparent 100%);
+  z-index: 1;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 10vh;
+}
+.hero-logo-display {
+  display: block;
+  width: min(380px, 72vw);
+  height: auto;
+  margin-bottom: 20px;
+  will-change: transform, opacity;
+}
+.hero-sub {
+  font-family: 'Heebo', sans-serif;
+  font-weight: 300;
+  font-size: clamp(14px, 2vw, 17px);
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.08em;
+  margin-bottom: 40px;
+  will-change: transform, opacity;
+}
+.btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Heebo', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  color: var(--white);
+  text-decoration: none;
+  border: 1px solid var(--gold);
+  padding: 16px 36px;
+  min-height: 52px;
+  transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+  cursor: pointer;
+  touch-action: manipulation;
+  will-change: transform, opacity;
+}
+.btn-whatsapp:hover,
+.btn-whatsapp:focus-visible {
+  background: var(--gold);
+  color: var(--black);
+  border-color: var(--gold);
+}
+.btn-whatsapp:active { opacity: 0.85; }
+.btn-whatsapp svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+@media (max-width: 768px) {
+  .hero-content { padding: 0 24px; }
+}
+
+/* ── ABOUT ── */
+#about { padding: 64px 0; background: var(--black); }
+.about-grid {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.about-image-wrap { overflow: hidden; }
+.about-image-wrap img {
+  width: 100%;
+  height: 700px;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  transition: transform 0.7s var(--ease);
+}
+.about-image-wrap:hover img { transform: scale(1.04); }
+
+.eyebrow {
+  display: block;
+  text-align: center;
+  font-family: 'Heebo', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 20px;
+}
+.gold-line {
+  margin-left: auto;
+  margin-right: auto;
+  width: 48px;
+  height: 1px;
+  background: var(--gold);
+  margin-bottom: 32px;
+  opacity: 0.8;
+}
+.about-headline {
+  text-align: center;
+  font-family: 'Frank Ruhl Libre', serif;
+  font-weight: 300;
+  font-size: clamp(36px, 4vw, 52px);
+  color: var(--gold);
+  line-height: 1.2;
+  margin-bottom: 32px;
+  text-wrap: balance;
+}
+.about-body {
+  font-family: 'Heebo', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.95;
+  color: var(--gray);
+  max-width: 520px;
+}
+
+@media (max-width: 768px) {
+  #about { padding: 48px 0; }
+  .about-grid { grid-template-columns: 1fr; padding: 0 24px; gap: 48px; }
+  .about-image-wrap { order: 2; }
+  .about-grid > div:not(.about-image-wrap) { order: 1; }
+  .about-image-wrap img { height: 420px; }
+  .about-body { max-width: 100%; }
+}
+
+/* ── GALLERY — sticky 3-column ── */
+#gallery { padding: 64px 0; background: var(--black); }
+.gallery-header {
+  max-width: 1440px;
+  margin: 0 auto 40px;
+  padding: 0 80px;
+}
+.section-headline {
+  text-align: center;
+  font-family: 'Frank Ruhl Libre', serif;
+  font-weight: 300;
+  font-size: clamp(40px, 6vw, 68px);
+  color: var(--gold);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.gallery-scroll-outer {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 80px;
+}
+
+.gallery-scroll-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  align-items: start;
+}
+
+/* scrolling columns */
+.gallery-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* sticky center column */
+.gallery-col-center {
+  position: sticky;
+  top: calc(var(--pill-top, 24px) + var(--pill-h) + 8px);
+  height: calc(100vh - var(--pill-top, 24px) - var(--pill-h) - 24px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gallery-col-center .g-item {
+  flex: 1;
+  min-height: 0;
+}
+
+.g-item {
+  overflow: hidden;
+  background: var(--charcoal);
+  position: relative;
+}
+
+.g-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s var(--ease);
+}
+
+/* left/right column images — sized to match sticky center column height */
+.gallery-col-left .g-item,
+.gallery-col-right .g-item {
+  height: 220px;
+}
+.gallery-col-left .g-item:nth-child(even),
+.gallery-col-right .g-item:nth-child(odd) {
+  height: 260px;
+}
+
+/* hover: scale + editorial overlay */
+.g-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(10,10,10,0);
+  transition: background 0.5s ease;
+  pointer-events: none;
+}
+.g-item:hover img { transform: scale(1.04); }
+.g-item:hover::after { background: rgba(10,10,10,0.12); }
+
+/* Mobile gallery — stacked single column */
+@media (max-width: 768px) {
+  #gallery { padding: 48px 0 24px; }
+  .gallery-header { padding: 0 24px; margin-bottom: 32px; }
+  .gallery-scroll-outer { padding: 0 12px; }
+  .gallery-scroll-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  /* Flatten all columns — items flow directly into the 2-col grid */
+  .gallery-col {
+    display: contents;
+  }
+  .gallery-col-center {
+    position: static;
+    height: auto;
+  }
+  .g-item,
+  .gallery-col-left .g-item,
+  .gallery-col-right .g-item,
+  .gallery-col-center .g-item,
+  .gallery-col-left .g-item:nth-child(odd),
+  .gallery-col-right .g-item:nth-child(even),
+  .gallery-col-left .g-item:nth-child(even),
+  .gallery-col-right .g-item:nth-child(odd) {
+    height: 200px;
+  }
+  /* Dancing woman (pic11, portrait) — back in normal flow */
+  .gallery-col-right .g-item:nth-child(4) {
+    grid-column: auto;
+    height: 200px;
+  }
+  /* B&W silhouette (pic5, landscape, center col first) → full-width at bottom */
+  .gallery-col-center .g-item:nth-child(1) {
+    order: 20;
+    grid-column: 1 / -1;
+    height: 220px;
+  }
+}
+
+/* ── VIDEO ── */
+#video { padding: 64px 0; background: var(--black); }
+.video-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 80px;
+}
+.video-head { margin-bottom: 40px; }
+.video-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.video-wrap {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  background: #111;
+}
+.video-wrap iframe {
+  position: absolute;
+  top: 0; right: 0;
+  width: 100%; height: 100%;
+  border: none;
+}
+.video-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+  background: #0e0e0e;
+  border: 1px solid rgba(123,173,168,0.12);
+}
+.video-play-btn {
+  width: 56px; height: 56px;
+  border: 1px solid rgba(123,173,168,0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+.video-play-btn svg {
+  width: 20px; height: 20px;
+  fill: var(--gold);
+  margin-right: -3px;
+}
+.video-placeholder-label {
+  font-family: 'Heebo', sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  color: rgba(123,173,168,0.4);
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  #video { padding: 48px 0; }
+  .video-inner { padding: 0 24px; }
+  .video-head { margin-bottom: 40px; }
+  .video-grid { grid-template-columns: 1fr; gap: 16px; }
+}
+
+/* ── TESTIMONIALS ── */
+#testimonials { padding: 64px 0; background: var(--black); }
+.testimonials-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 80px;
+}
+.testimonials-head { margin-bottom: 48px; }
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+  align-items: start;
+}
+.testimonial {
+  padding-top: 28px;
+  border-top: 1px solid rgba(123,173,168,0.18);
+}
+.quote-mark {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 72px;
+  line-height: 0.55;
+  color: var(--gold);
+  margin-bottom: 28px;
+  display: block;
+  opacity: 0.55;
+  user-select: none;
+}
+.testimonial-text {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(15px, 1.8vw, 19px);
+  line-height: 1.75;
+  color: rgba(255,255,255,0.82);
+  margin-bottom: 24px;
+}
+.testimonial-name {
+  font-family: 'Heebo', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+@media (max-width: 960px) {
+  .testimonials-grid { grid-template-columns: 1fr; gap: 56px; }
+}
+@media (max-width: 768px) {
+  #testimonials { padding: 48px 0; }
+  .testimonials-inner { padding: 0 24px; }
+  .testimonials-head { margin-bottom: 48px; }
+}
+
+/* ── CONTACT ── */
+#contact {
+  position: relative;
+  padding: 64px 0;
+  background: var(--black);
+  text-align: center;
+}
+.contact-content {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.contact-logo {
+  height: 110px;
+  width: auto;
+  opacity: 0.85;
+  margin-bottom: 32px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.contact-headline {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-weight: 300;
+  font-size: clamp(48px, 8vw, 88px);
+  color: var(--gold);
+  line-height: 1.1;
+  margin-bottom: 20px;
+  text-wrap: balance;
+}
+.contact-sub {
+  font-family: 'Heebo', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--gray);
+  line-height: 1.8;
+  margin-bottom: 36px;
+}
+.contact-cta-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 40px;
+}
+.contact-phone {
+  font-family: 'Heebo', sans-serif;
+  font-size: 17px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  color: var(--gray);
+  text-decoration: none;
+  transition: color 0.3s;
+  cursor: pointer;
+  padding: 2px 0;
+  display: inline-block;
+}
+.contact-phone:hover { color: var(--gold); }
+.social-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+.social-link {
+  color: var(--black);
+  background: var(--gold);
+  text-decoration: none;
+  border-radius: 10px;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px; height: 52px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.social-link:hover,
+.social-link:focus-visible { opacity: 0.8; transform: scale(1.06); }
+.social-link svg { width: 22px; height: 22px; }
+.site-footer {
+  background: var(--black);
+  border-top: 1px solid rgba(123,173,168,0.4);
+  padding: 28px 24px;
+  text-align: center;
+}
+.site-footer p {
+  font-family: 'Heebo', sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+}
+
+@media (max-width: 768px) {
+  #contact { padding: 48px 0; }
+}
+
+/* ── FADE-UP ── */
+.fade-up { opacity: 0; transform: translateY(28px); will-change: transform, opacity; }
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .fade-up, .hero-logo-display, .hero-sub, #hero .btn-whatsapp {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  body, .g-item img, .about-image-wrap img,
+  .btn-whatsapp, .nav-pill-link, .social-link,
+  .contact-phone, .nav-pill-link::before, .nav-pill-link::after,
+  .g-item::after { transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">דלג לתוכן הראשי</a>
+
+
+<!-- TUBELIGHT PILL NAV -->
+<nav class="nav-pill-wrap" aria-label="ניווט ראשי">
+  <div class="nav-pill" role="list">
+
+    <a href="#hero" class="nav-pill-link active" role="listitem" aria-label="בית">
+      <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+        <polyline points="9 21 9 12 15 12 15 21"/>
+      </svg>
+      <span class="pill-label">בית</span>
+    </a>
+
+    <a href="#about" class="nav-pill-link" role="listitem" aria-label="אודות">
+      <!-- User icon (mobile) -->
+      <svg class="pill-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      <span class="pill-label">אודות</span>
+    </a>
+
+    <a href="#gallery" class="nav-pill-link" role="listitem" aria-label="גלריה">
+      <!-- Grid/gallery icon (mobile) -->
+      <svg class="pill-icon pill-icon--fill" viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="3" y="3" width="7" height="7" rx="1"/>
+        <rect x="14" y="3" width="7" height="7" rx="1"/>
+        <rect x="3" y="14" width="7" height="7" rx="1"/>
+        <rect x="14" y="14" width="7" height="7" rx="1"/>
+      </svg>
+      <span class="pill-label">גלריה</span>
+    </a>
+
+    <a href="#video" class="nav-pill-link" role="listitem" aria-label="וידאו">
+      <!-- YouTube icon (mobile) -->
+      <svg class="pill-icon pill-icon--fill" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 00-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 002.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.8 15.5V8.5l6.2 3.5-6.2 3.5z"/>
+      </svg>
+      <span class="pill-label">וידאו</span>
+    </a>
+
+    <a href="#testimonials" class="nav-pill-link" role="listitem" aria-label="המלצות">
+      <!-- Star icon (mobile) -->
+      <svg class="pill-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+      </svg>
+      <span class="pill-label">ביקורות</span>
+    </a>
+
+    <a href="#contact" class="nav-pill-link" role="listitem" aria-label="צור קשר">
+      <!-- Phone icon (mobile) -->
+      <svg class="pill-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.82 19.79 19.79 0 01.13 1.19 2 2 0 012.11 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.09a16 16 0 006 6l.46-.46a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+      </svg>
+      <span class="pill-label">צור קשר</span>
+    </a>
+
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero" aria-label="כותרת ראשית">
+  <div class="hero-video-wrap" aria-hidden="true">
+    <img src="./pic1.jpeg" alt="" class="hero-bg-img">
+  </div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="hero-content">
+    <img src="./transparentLogo.png" alt="מיכאל לוריה" class="hero-logo-display">
+    <p class="hero-sub">צילום וידאו וסטילס לחתונות ועסקים</p>
+    <a class="btn-whatsapp" href="#contact" aria-label="מעבר לעמוד צור קשר">
+      צרו קשר
+    </a>
+  </div>
+</section>
+
+<main id="main">
+
+<!-- ABOUT -->
+<section id="about" aria-labelledby="about-heading">
+  <div class="about-grid">
+    <div class="about-image-wrap fade-up">
+      <img src="./michaelpic.jpeg" alt="מיכאל לוריה, צלם חתונות" loading="eager" fetchpriority="high">
+    </div>
+    <div class="fade-up" style="transition-delay:0.15s">
+      <span class="eyebrow">קצת עליי</span>
+      <div class="gold-line" aria-hidden="true"></div>
+      <h2 id="about-heading" class="about-headline">נעים להכיר,<br>אני מיכאל.</h2>
+      <p class="about-body">צלם אירועים משנת 1992. צילמתי כבר למעלה מ-5,000 אירועים מכל סוג אפשרי, החל מבריתות אינטימיות בבית ועד לאירועים ססגוניים ויוקרתיים בניו-יורק. אני צלם וידאו, אך בארבע השנים האחרונות אני מצלם גם בסטילס, ומביא את הידע, הניסיון וההבנה שתמונה תופסת רגע תיעודי, טבעי, רגע שנעדר מגבולות של זמן ומרחב, ושאפשר להתבונן בו שוב ושוב.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY — sticky 3-column scroll -->
+<section id="gallery" aria-labelledby="gallery-heading">
+  <div class="gallery-header fade-up">
+    <h2 id="gallery-heading" class="section-headline">גלריית תמונות</h2>
+  </div>
+  <div class="gallery-scroll-outer">
+    <div class="gallery-scroll-grid">
+
+      <!-- Left column — scrolls -->
+      <div class="gallery-col gallery-col-left">
+        <div class="g-item"><img src="./pic1.jpeg" alt="" loading="lazy"></div>
+        <div class="g-item"><img src="./pic2.jpeg" alt="" loading="lazy"></div>
+        <div class="g-item"><img src="./pic3.jpeg" alt="" loading="lazy"></div>
+        <div class="g-item"><img src="./pic4.jpeg" alt="" loading="lazy"></div>
+      </div>
+
+      <!-- Center column — sticky -->
+      <div class="gallery-col gallery-col-center">
+        <div class="g-item"><img src="./pic5.jpeg" alt="" loading="lazy"></div>
+        <div class="g-item"><img src="./pic6.jpeg" alt="" loading="lazy"></div>
+        <div class="g-item"><img src="./pic7.jpeg" alt="" loading="lazy"></div>
+      </div>
+
+      <!-- Right column — scrolls (visual left in RTL) -->
+      <div class="gallery-col gallery-col-right">
+        <div class="g-item"><img src="./pic8.jpeg" alt="" loading="lazy"></div>
+        <div class="g-item"><img src="./pic9.jpeg" alt="" loading="lazy"></div>
+        <div class="g-item"><img src="./pic10.jpeg" alt="" loading="lazy"></div>
+        <div class="g-item"><img src="./pic11.jpeg" alt="" loading="lazy"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section id="video" aria-labelledby="video-heading">
+  <div class="video-inner">
+    <div class="video-head fade-up">
+      <h2 id="video-heading" class="section-headline">וידאו</h2>
+    </div>
+    <div class="video-grid">
+      <div class="video-wrap fade-up">
+        <!-- Replace: <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="סרט חתונה 1" allowfullscreen></iframe> -->
+        <div class="video-placeholder">
+          <div class="video-play-btn" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+          <span class="video-placeholder-label">INSERT YOUTUBE EMBED URL</span>
+        </div>
+      </div>
+      <div class="video-wrap fade-up">
+        <!-- Replace: <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="סרט חתונה 2" allowfullscreen></iframe> -->
+        <div class="video-placeholder">
+          <div class="video-play-btn" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+          <span class="video-placeholder-label">INSERT YOUTUBE EMBED URL</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" aria-labelledby="testimonials-heading">
+  <div class="testimonials-inner">
+    <div class="testimonials-head fade-up">
+      <span class="eyebrow">זוגות משתפים</span>
+      <div class="gold-line" aria-hidden="true"></div>
+      <h2 id="testimonials-heading" class="section-headline">מה אומרים עלינו</h2>
+    </div>
+    <div class="testimonials-grid">
+      <article class="testimonial fade-up">
+        <span class="quote-mark" aria-hidden="true">&ldquo;</span>
+        <p class="testimonial-text">מיכאל הוא צלם שבה לעבוד. הוא היה יסודי הסביר הכל ונתן לנו הרגשה שאנחנו בידיים טובות. מאוד ממליצה לתת לו לעשות את העבודה שלו ולא להתערב יותר מדי כי הוא יודע הכי טוב 😉</p>
+        <span class="testimonial-name">— אטל</span>
+      </article>
+      <article class="testimonial fade-up">
+        <span class="quote-mark" aria-hidden="true">&ldquo;</span>
+        <p class="testimonial-text">צלם טוב נמדד ביכולת שלו לתפוס רגעים ספונטניים אבל בלתי נשכחים. מיכאל פשוט אמן בלצלם רגעים קסומים ולא מתוכננים, להוציא את הפריים הכי טוב שממחיש את הקסם האותנטי ובעיקר לערוך את התמונות ברמה הכי גבוהה ומקצועיות שיש.</p>
+        <span class="testimonial-name">— סתיו</span>
+      </article>
+      <article class="testimonial fade-up">
+        <span class="quote-mark" aria-hidden="true">&ldquo;</span>
+        <p class="testimonial-text">מיכאל פשוט קסם של אדם, נהנינו ממנו מאוד באירוע, הוא הגיע בזמן, עשה לנו וידיאו נדיר ואפילו באותו לילה הכין לנו את ההיטלייטס של האירוע.</p>
+        <span class="testimonial-name">— אלינור</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" aria-labelledby="contact-heading">
+  <div class="contact-content fade-up">
+    <img src="./transparentLogo.png" alt="מיכאל לוריה" class="contact-logo">
+    <h2 id="contact-heading" class="contact-headline">בואו נדבר</h2>
+    <div class="contact-cta-group">
+      <a class="btn-whatsapp" href="https://api.whatsapp.com/send?phone=972542186017&text=היי! אשמח לקבל פרטים לגבי צילומי וידאו/סטילס." target="_blank" rel="noopener noreferrer" aria-label="שלח הודעת WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        בואו נדבר
+      </a>
+      <a class="contact-phone" href="tel:+972542186017">054-218-6017</a>
+      <a class="contact-phone" href="mailto:Misha.lurie@gmail.com">Misha.lurie@gmail.com</a>
+    </div>
+    <div class="social-links" aria-label="רשתות חברתיות">
+      <a class="social-link" href="https://www.instagram.com/michael_lurie_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <a class="social-link" href="https://www.facebook.com/MichaelLurie.photographer" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+      </a>
+      <a class="social-link" href="https://www.youtube.com/@michaellurie" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 00-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 002.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.8 15.5V8.5l6.2 3.5-6.2 3.5z"/>
+        </svg>
+      </a>
+      <a class="social-link" href="https://vimeo.com/michaellurie" target="_blank" rel="noopener noreferrer" aria-label="Vimeo">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M23.977 6.416c-.105 2.338-1.739 5.543-4.894 9.609-3.268 4.247-6.026 6.37-8.29 6.37-1.409 0-2.578-1.294-3.553-3.881L5.322 11.4C4.603 8.816 3.834 7.522 3.01 7.522c-.179 0-.806.378-1.881 1.132L0 7.197c1.185-1.044 2.351-2.084 3.501-3.128C5.08 2.701 6.266 1.984 7.055 1.91c1.867-.18 3.016 1.1 3.447 3.838.465 2.953.789 4.789.971 5.507.539 2.45 1.131 3.674 1.776 3.674.502 0 1.256-.796 2.265-2.385 1.004-1.589 1.54-2.797 1.612-3.628.144-1.371-.395-2.061-1.612-2.061-.574 0-1.167.121-1.777.391 1.186-3.868 3.434-5.757 6.762-5.637 2.473.06 3.628 1.664 3.478 4.807z"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <p>© 2025 כל הזכויות שמורות למיכאל לוריה — Video &amp; Photography</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function() {
+
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── PAGE LOAD ── */
+  window.addEventListener('load', function() {
+    document.body.classList.add('loaded');
+    if (!prefersReducedMotion) animateHero();
+  });
+
+  /* ── HERO CINEMATIC ENTRANCE ── */
+  function animateHero() {
+    var logo = document.querySelector('.hero-logo-display');
+    var sub  = document.querySelector('.hero-sub');
+    var btn  = document.querySelector('#hero .btn-whatsapp');
+    gsap.fromTo(logo, { opacity: 0, y: 32 }, { opacity: 1, y: 0, duration: 1.3, ease: 'power2.out', delay: 0.3 });
+    gsap.fromTo(sub,  { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 1.2, ease: 'power2.out', delay: 0.55 });
+    gsap.fromTo(btn,  { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1.1, ease: 'power2.out', delay: 0.8 });
+  }
+
+  /* ── SCROLL ANIMATIONS ── */
+  if (!prefersReducedMotion) {
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* General fade-up — exclude gallery items and testimonials (staggered separately) */
+    document.querySelectorAll('.fade-up:not(.testimonial)').forEach(function(el) {
+      var delay = parseFloat(el.style.transitionDelay) || 0;
+      var isAbout = el.closest('#about');
+      gsap.to(el, {
+        scrollTrigger: { trigger: el, start: isAbout ? 'top 100%' : 'top 88%', toggleActions: 'play none none none' },
+        opacity: 1, y: 0,
+        duration: 0.9,
+        delay: delay,
+        ease: 'power2.out'
+      });
+    });
+
+    /* Safety: reveal about content after 1.2s regardless */
+    setTimeout(function() {
+      document.querySelectorAll('#about .fade-up').forEach(function(el) {
+        if (parseFloat(getComputedStyle(el).opacity) < 1) {
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+        }
+      });
+    }, 1200);
+
+    /* Gallery columns — stagger */
+    var galleryCols = document.querySelectorAll('.gallery-col');
+    if (galleryCols.length) {
+      gsap.fromTo(galleryCols,
+        { opacity: 0, y: 40 },
+        {
+          scrollTrigger: { trigger: '.gallery-scroll-outer', start: 'top 85%', toggleActions: 'play none none none' },
+          opacity: 1, y: 0,
+          duration: 1.0,
+          stagger: 0.18,
+          ease: 'power2.out'
+        }
+      );
+    }
+
+    /* Testimonials — stagger */
+    var testimonials = document.querySelectorAll('.testimonial.fade-up');
+    if (testimonials.length) {
+      gsap.to(testimonials, {
+        scrollTrigger: { trigger: '.testimonials-grid', start: 'top 85%', toggleActions: 'play none none none' },
+        opacity: 1, y: 0,
+        duration: 0.9,
+        stagger: 0.18,
+        ease: 'power2.out'
+      });
+    }
+
+  } else {
+    document.querySelectorAll('.fade-up').forEach(function(el) {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+  }
+
+  /* ── PILL NAV + LOGO — show on scroll ── */
+  var pillWrap  = document.querySelector('.nav-pill-wrap');
+  var logoNav   = document.querySelector('.site-logo-nav');
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 80) {
+      pillWrap.classList.add('visible');
+      if (logoNav) logoNav.classList.add('visible');
+    } else {
+      pillWrap.classList.remove('visible');
+      if (logoNav) logoNav.classList.remove('visible');
+    }
+  }, { passive: true });
+
+  /* ── TUBELIGHT NAV — active tracking ── */
+  var pillLinks = document.querySelectorAll('.nav-pill-link');
+  var sections  = document.querySelectorAll('section[id]');
+
+  /* Default active = home (hero) */
+  if (pillLinks[0]) pillLinks[0].classList.add('active');
+
+  /* Update on scroll with IntersectionObserver */
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (!entry.isIntersecting) return;
+      var id = entry.target.id;
+      pillLinks.forEach(function(link) {
+        var matches = link.getAttribute('href') === '#' + id;
+        link.classList.toggle('active', matches);
+      });
+    });
+  }, { threshold: 0, rootMargin: '-5% 0px -45% 0px' });
+
+  sections.forEach(function(s) { observer.observe(s); });
+
+  /* Also update on click immediately */
+  pillLinks.forEach(function(link) {
+    link.addEventListener('click', function() {
+      pillLinks.forEach(function(l) { l.classList.remove('active'); });
+      link.classList.add('active');
+    });
+  });
+
+
+})();
+</script>
+</body>
+</html>
