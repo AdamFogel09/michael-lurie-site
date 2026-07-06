@@ -86,3 +86,12 @@ collections:
                   - { label: "Facebook", name: "facebook", widget: "string" }
                   - { label: "YouTube", name: "youtube", widget: "string" }
                   - { label: "Vimeo", name: "vimeo", widget: "string" }
+
+          - label: "הצהרת נגישות"
+            name: "accessibility"
+            widget: "object"
+            fields:
+              - { label: "תאריך עדכון ההצהרה", name: "statementDate", widget: "string", hint: "לעדכן בכל פעם שנבדקה הנגישות מחדש" }
+              - { label: "איש קשר לנושאי נגישות", name: "contactName", widget: "string" }
+              - { label: "טלפון איש הקשר", name: "contactPhone", widget: "string" }
+              - { label: "אימייל איש הקשר", name: "contactEmail", widget: "string" }
