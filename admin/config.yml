@@ -42,7 +42,9 @@ collections:
               - label: "תמונות"
                 name: "images"
                 widget: "list"
-                field: { label: "תמונה", name: "image", widget: "image" }
+                fields:
+                  - { label: "תמונה", name: "src", widget: "image" }
+                  - { label: "טקסט חלופי (alt) - לתיאור מה בתמונה, חשוב ל-SEO ולנגישות", name: "alt", widget: "string" }
 
           - label: "וידאו"
             name: "video"
