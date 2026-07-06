@@ -1,0 +1,88 @@
+backend:
+  name: github
+  repo: AdamFogel09/michael-lurie-site
+  branch: main
+  base_url: https://michael-lurie-site.vercel.app
+  auth_endpoint: api/auth
+
+media_folder: ""
+public_folder: "/"
+
+locale: "he"
+
+collections:
+  - name: "site"
+    label: "תוכן האתר"
+    files:
+      - file: "content/site.json"
+        label: "כל התוכן"
+        name: "site"
+        fields:
+          - label: "פתיח (Hero)"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "כותרת משנה", name: "subheadline", widget: "string" }
+              - { label: "תמונת רקע", name: "image", widget: "image" }
+
+          - label: "אודות"
+            name: "about"
+            widget: "object"
+            fields:
+              - { label: "כיתוב קטן (Eyebrow)", name: "eyebrow", widget: "string" }
+              - { label: "כותרת (אפשר <br> לשבירת שורה)", name: "headline", widget: "string" }
+              - { label: "טקסט", name: "body", widget: "text" }
+              - { label: "תמונה", name: "image", widget: "image" }
+
+          - label: "גלריה"
+            name: "gallery"
+            widget: "object"
+            fields:
+              - { label: "כותרת", name: "headline", widget: "string" }
+              - label: "תמונות"
+                name: "images"
+                widget: "list"
+                field: { label: "תמונה", name: "image", widget: "image" }
+
+          - label: "וידאו"
+            name: "video"
+            widget: "object"
+            fields:
+              - { label: "כותרת", name: "headline", widget: "string" }
+              - label: "סרטונים"
+                name: "items"
+                widget: "list"
+                fields:
+                  - { label: "כותרת הסרטון", name: "title", widget: "string" }
+                  - { label: "קישור להטמעה (YouTube/Vimeo embed URL)", name: "embedUrl", widget: "string", required: false }
+
+          - label: "המלצות"
+            name: "testimonials"
+            widget: "object"
+            fields:
+              - { label: "כיתוב קטן (Eyebrow)", name: "eyebrow", widget: "string" }
+              - { label: "כותרת", name: "headline", widget: "string" }
+              - label: "המלצות"
+                name: "items"
+                widget: "list"
+                fields:
+                  - { label: "ציטוט", name: "quote", widget: "text" }
+                  - { label: "שם", name: "name", widget: "string" }
+
+          - label: "צור קשר"
+            name: "contact"
+            widget: "object"
+            fields:
+              - { label: "כותרת", name: "headline", widget: "string" }
+              - { label: "טלפון לתצוגה", name: "phone", widget: "string" }
+              - { label: "טלפון לוואטסאפ (פורמט בינלאומי, למשל 972501234567)", name: "whatsappPhone", widget: "string" }
+              - { label: "אימייל", name: "email", widget: "string" }
+              - { label: "הודעת פתיחה לוואטסאפ", name: "whatsappMessage", widget: "text" }
+              - label: "רשתות חברתיות"
+                name: "social"
+                widget: "object"
+                fields:
+                  - { label: "Instagram", name: "instagram", widget: "string" }
+                  - { label: "Facebook", name: "facebook", widget: "string" }
+                  - { label: "YouTube", name: "youtube", widget: "string" }
+                  - { label: "Vimeo", name: "vimeo", widget: "string" }

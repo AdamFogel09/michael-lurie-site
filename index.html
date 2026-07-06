@@ -474,23 +474,8 @@ body.loaded { opacity: 1; }
   .g-item,
   .gallery-col-left .g-item,
   .gallery-col-right .g-item,
-  .gallery-col-center .g-item,
-  .gallery-col-left .g-item:nth-child(odd),
-  .gallery-col-right .g-item:nth-child(even),
-  .gallery-col-left .g-item:nth-child(even),
-  .gallery-col-right .g-item:nth-child(odd) {
+  .gallery-col-center .g-item {
     height: 200px;
-  }
-  /* Dancing woman (pic11, portrait) — back in normal flow */
-  .gallery-col-right .g-item:nth-child(4) {
-    grid-column: auto;
-    height: 200px;
-  }
-  /* B&W silhouette (pic5, landscape, center col first) → full-width at bottom */
-  .gallery-col-center .g-item:nth-child(1) {
-    order: 20;
-    grid-column: 1 / -1;
-    height: 220px;
   }
 }
 
@@ -571,7 +556,7 @@ body.loaded { opacity: 1; }
 .testimonials-head { margin-bottom: 48px; }
 .testimonials-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 48px;
   align-items: start;
 }
@@ -799,12 +784,12 @@ body.loaded { opacity: 1; }
 <!-- HERO -->
 <section id="hero" aria-label="כותרת ראשית">
   <div class="hero-video-wrap" aria-hidden="true">
-    <img src="./pic1.jpeg" alt="" class="hero-bg-img">
+    <img id="hero-bg-img" src="./pic1.jpeg" alt="" class="hero-bg-img">
   </div>
   <div class="hero-overlay" aria-hidden="true"></div>
   <div class="hero-content">
     <img src="./transparentLogo.png" alt="מיכאל לוריה" class="hero-logo-display">
-    <p class="hero-sub">צילום וידאו וסטילס לחתונות ועסקים</p>
+    <p id="hero-sub" class="hero-sub">צילום וידאו וסטילס לחתונות ועסקים</p>
     <a class="btn-whatsapp" href="#contact" aria-label="מעבר לעמוד צור קשר">
       צרו קשר
     </a>
@@ -817,13 +802,13 @@ body.loaded { opacity: 1; }
 <section id="about" aria-labelledby="about-heading">
   <div class="about-grid">
     <div class="about-image-wrap fade-up">
-      <img src="./michaelpic.jpeg" alt="מיכאל לוריה, צלם חתונות" loading="eager" fetchpriority="high">
+      <img id="about-img" src="./michaelpic.jpeg" alt="מיכאל לוריה, צלם חתונות" loading="eager" fetchpriority="high">
     </div>
     <div class="fade-up" style="transition-delay:0.15s">
-      <span class="eyebrow">קצת עליי</span>
+      <span id="about-eyebrow" class="eyebrow">קצת עליי</span>
       <div class="gold-line" aria-hidden="true"></div>
       <h2 id="about-heading" class="about-headline">נעים להכיר,<br>אני מיכאל.</h2>
-      <p class="about-body">צלם אירועים משנת 1992. צילמתי כבר למעלה מ-5,000 אירועים מכל סוג אפשרי, החל מבריתות אינטימיות בבית ועד לאירועים ססגוניים ויוקרתיים בניו-יורק. אני צלם וידאו, אך בארבע השנים האחרונות אני מצלם גם בסטילס, ומביא את הידע, הניסיון וההבנה שתמונה תופסת רגע תיעודי, טבעי, רגע שנעדר מגבולות של זמן ומרחב, ושאפשר להתבונן בו שוב ושוב.</p>
+      <p id="about-body" class="about-body">צלם אירועים משנת 1992. צילמתי כבר למעלה מ-5,000 אירועים מכל סוג אפשרי, החל מבריתות אינטימיות בבית ועד לאירועים ססגוניים ויוקרתיים בניו-יורק. אני צלם וידאו, אך בארבע השנים האחרונות אני מצלם גם בסטילס, ומביא את הידע, הניסיון וההבנה שתמונה תופסת רגע תיעודי, טבעי, רגע שנעדר מגבולות של זמן ומרחב, ושאפשר להתבונן בו שוב ושוב.</p>
     </div>
   </div>
 </section>
@@ -837,27 +822,13 @@ body.loaded { opacity: 1; }
     <div class="gallery-scroll-grid">
 
       <!-- Left column — scrolls -->
-      <div class="gallery-col gallery-col-left">
-        <div class="g-item"><img src="./pic1.jpeg" alt="" loading="lazy"></div>
-        <div class="g-item"><img src="./pic2.jpeg" alt="" loading="lazy"></div>
-        <div class="g-item"><img src="./pic3.jpeg" alt="" loading="lazy"></div>
-        <div class="g-item"><img src="./pic4.jpeg" alt="" loading="lazy"></div>
-      </div>
+      <div class="gallery-col gallery-col-left" id="gallery-col-left"></div>
 
       <!-- Center column — sticky -->
-      <div class="gallery-col gallery-col-center">
-        <div class="g-item"><img src="./pic5.jpeg" alt="" loading="lazy"></div>
-        <div class="g-item"><img src="./pic6.jpeg" alt="" loading="lazy"></div>
-        <div class="g-item"><img src="./pic7.jpeg" alt="" loading="lazy"></div>
-      </div>
+      <div class="gallery-col gallery-col-center" id="gallery-col-center"></div>
 
       <!-- Right column — scrolls (visual left in RTL) -->
-      <div class="gallery-col gallery-col-right">
-        <div class="g-item"><img src="./pic8.jpeg" alt="" loading="lazy"></div>
-        <div class="g-item"><img src="./pic9.jpeg" alt="" loading="lazy"></div>
-        <div class="g-item"><img src="./pic10.jpeg" alt="" loading="lazy"></div>
-        <div class="g-item"><img src="./pic11.jpeg" alt="" loading="lazy"></div>
-      </div>
+      <div class="gallery-col gallery-col-right" id="gallery-col-right"></div>
 
     </div>
   </div>
@@ -869,26 +840,7 @@ body.loaded { opacity: 1; }
     <div class="video-head fade-up">
       <h2 id="video-heading" class="section-headline">וידאו</h2>
     </div>
-    <div class="video-grid">
-      <div class="video-wrap fade-up">
-        <!-- Replace: <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="סרט חתונה 1" allowfullscreen></iframe> -->
-        <div class="video-placeholder">
-          <div class="video-play-btn" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-          </div>
-          <span class="video-placeholder-label">INSERT YOUTUBE EMBED URL</span>
-        </div>
-      </div>
-      <div class="video-wrap fade-up">
-        <!-- Replace: <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="סרט חתונה 2" allowfullscreen></iframe> -->
-        <div class="video-placeholder">
-          <div class="video-play-btn" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-          </div>
-          <span class="video-placeholder-label">INSERT YOUTUBE EMBED URL</span>
-        </div>
-      </div>
-    </div>
+    <div class="video-grid" id="video-grid"></div>
   </div>
 </section>
 
@@ -896,27 +848,11 @@ body.loaded { opacity: 1; }
 <section id="testimonials" aria-labelledby="testimonials-heading">
   <div class="testimonials-inner">
     <div class="testimonials-head fade-up">
-      <span class="eyebrow">זוגות משתפים</span>
+      <span id="testimonials-eyebrow" class="eyebrow">זוגות משתפים</span>
       <div class="gold-line" aria-hidden="true"></div>
       <h2 id="testimonials-heading" class="section-headline">מה אומרים עלינו</h2>
     </div>
-    <div class="testimonials-grid">
-      <article class="testimonial fade-up">
-        <span class="quote-mark" aria-hidden="true">&ldquo;</span>
-        <p class="testimonial-text">מיכאל הוא צלם שבה לעבוד. הוא היה יסודי הסביר הכל ונתן לנו הרגשה שאנחנו בידיים טובות. מאוד ממליצה לתת לו לעשות את העבודה שלו ולא להתערב יותר מדי כי הוא יודע הכי טוב 😉</p>
-        <span class="testimonial-name">— אטל</span>
-      </article>
-      <article class="testimonial fade-up">
-        <span class="quote-mark" aria-hidden="true">&ldquo;</span>
-        <p class="testimonial-text">צלם טוב נמדד ביכולת שלו לתפוס רגעים ספונטניים אבל בלתי נשכחים. מיכאל פשוט אמן בלצלם רגעים קסומים ולא מתוכננים, להוציא את הפריים הכי טוב שממחיש את הקסם האותנטי ובעיקר לערוך את התמונות ברמה הכי גבוהה ומקצועיות שיש.</p>
-        <span class="testimonial-name">— סתיו</span>
-      </article>
-      <article class="testimonial fade-up">
-        <span class="quote-mark" aria-hidden="true">&ldquo;</span>
-        <p class="testimonial-text">מיכאל פשוט קסם של אדם, נהנינו ממנו מאוד באירוע, הוא הגיע בזמן, עשה לנו וידיאו נדיר ואפילו באותו לילה הכין לנו את ההיטלייטס של האירוע.</p>
-        <span class="testimonial-name">— אלינור</span>
-      </article>
-    </div>
+    <div class="testimonials-grid" id="testimonials-grid"></div>
   </div>
 </section>
 
@@ -926,34 +862,34 @@ body.loaded { opacity: 1; }
     <img src="./transparentLogo.png" alt="מיכאל לוריה" class="contact-logo">
     <h2 id="contact-heading" class="contact-headline">בואו נדבר</h2>
     <div class="contact-cta-group">
-      <a class="btn-whatsapp" href="https://api.whatsapp.com/send?phone=972542186017&text=היי! אשמח לקבל פרטים לגבי צילומי וידאו/סטילס." target="_blank" rel="noopener noreferrer" aria-label="שלח הודעת WhatsApp">
+      <a class="btn-whatsapp js-whatsapp-link" href="#" target="_blank" rel="noopener noreferrer" aria-label="שלח הודעת WhatsApp">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
         </svg>
         בואו נדבר
       </a>
-      <a class="contact-phone" href="tel:+972542186017">054-218-6017</a>
-      <a class="contact-phone" href="mailto:Misha.lurie@gmail.com">Misha.lurie@gmail.com</a>
+      <a id="contact-phone-tel" class="contact-phone" href="tel:+972542186017">054-218-6017</a>
+      <a id="contact-phone-email" class="contact-phone" href="mailto:Misha.lurie@gmail.com">Misha.lurie@gmail.com</a>
     </div>
     <div class="social-links" aria-label="רשתות חברתיות">
-      <a class="social-link" href="https://www.instagram.com/michael_lurie_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+      <a id="social-instagram" class="social-link" href="https://www.instagram.com/michael_lurie_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
           <circle cx="12" cy="12" r="4"/>
           <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
         </svg>
       </a>
-      <a class="social-link" href="https://www.facebook.com/MichaelLurie.photographer" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+      <a id="social-facebook" class="social-link" href="https://www.facebook.com/MichaelLurie.photographer" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
         </svg>
       </a>
-      <a class="social-link" href="https://www.youtube.com/@michaellurie" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+      <a id="social-youtube" class="social-link" href="https://www.youtube.com/@michaellurie" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 00-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 002.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.8 15.5V8.5l6.2 3.5-6.2 3.5z"/>
         </svg>
       </a>
-      <a class="social-link" href="https://vimeo.com/michaellurie" target="_blank" rel="noopener noreferrer" aria-label="Vimeo">
+      <a id="social-vimeo" class="social-link" href="https://vimeo.com/michaellurie" target="_blank" rel="noopener noreferrer" aria-label="Vimeo">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M23.977 6.416c-.105 2.338-1.739 5.543-4.894 9.609-3.268 4.247-6.026 6.37-8.29 6.37-1.409 0-2.578-1.294-3.553-3.881L5.322 11.4C4.603 8.816 3.834 7.522 3.01 7.522c-.179 0-.806.378-1.881 1.132L0 7.197c1.185-1.044 2.351-2.084 3.501-3.128C5.08 2.701 6.266 1.984 7.055 1.91c1.867-.18 3.016 1.1 3.447 3.838.465 2.953.789 4.789.971 5.507.539 2.45 1.131 3.674 1.776 3.674.502 0 1.256-.796 2.265-2.385 1.004-1.589 1.54-2.797 1.612-3.628.144-1.371-.395-2.061-1.612-2.061-.574 0-1.167.121-1.777.391 1.186-3.868 3.434-5.757 6.762-5.637 2.473.06 3.628 1.664 3.478 4.807z"/>
         </svg>
@@ -975,11 +911,123 @@ body.loaded { opacity: 1; }
 
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ── PAGE LOAD ── */
-  window.addEventListener('load', function() {
+  /* ── CONTENT LOADER ── */
+  function renderContent(data) {
+    document.getElementById('hero-bg-img').src = data.hero.image;
+    document.getElementById('hero-sub').textContent = data.hero.subheadline;
+
+    document.getElementById('about-img').src = data.about.image;
+    document.getElementById('about-eyebrow').textContent = data.about.eyebrow;
+    document.getElementById('about-heading').innerHTML = data.about.headline;
+    document.getElementById('about-body').textContent = data.about.body;
+
+    document.getElementById('gallery-heading').textContent = data.gallery.headline;
+    var cols = [
+      document.getElementById('gallery-col-left'),
+      document.getElementById('gallery-col-center'),
+      document.getElementById('gallery-col-right')
+    ];
+    data.gallery.images.forEach(function(src, i) {
+      var item = document.createElement('div');
+      item.className = 'g-item';
+      var img = document.createElement('img');
+      img.src = src;
+      img.alt = '';
+      img.loading = 'lazy';
+      item.appendChild(img);
+      cols[i % 3].appendChild(item);
+    });
+
+    document.getElementById('video-heading').textContent = data.video.headline;
+    var videoGrid = document.getElementById('video-grid');
+    data.video.items.forEach(function(v) {
+      var wrap = document.createElement('div');
+      wrap.className = 'video-wrap fade-up';
+      if (v.embedUrl) {
+        var iframe = document.createElement('iframe');
+        iframe.src = v.embedUrl;
+        iframe.title = v.title || '';
+        iframe.allowFullscreen = true;
+        wrap.appendChild(iframe);
+      } else {
+        wrap.innerHTML =
+          '<div class="video-placeholder">' +
+            '<div class="video-play-btn" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>' +
+            '<span class="video-placeholder-label">INSERT YOUTUBE EMBED URL</span>' +
+          '</div>';
+      }
+      videoGrid.appendChild(wrap);
+    });
+
+    document.getElementById('testimonials-eyebrow').textContent = data.testimonials.eyebrow;
+    document.getElementById('testimonials-heading').textContent = data.testimonials.headline;
+    var tGrid = document.getElementById('testimonials-grid');
+    data.testimonials.items.forEach(function(t) {
+      var article = document.createElement('article');
+      article.className = 'testimonial fade-up';
+
+      var quote = document.createElement('span');
+      quote.className = 'quote-mark';
+      quote.setAttribute('aria-hidden', 'true');
+      quote.innerHTML = '&ldquo;';
+
+      var text = document.createElement('p');
+      text.className = 'testimonial-text';
+      text.textContent = t.quote;
+
+      var name = document.createElement('span');
+      name.className = 'testimonial-name';
+      name.textContent = '— ' + t.name;
+
+      article.appendChild(quote);
+      article.appendChild(text);
+      article.appendChild(name);
+      tGrid.appendChild(article);
+    });
+
+    document.getElementById('contact-heading').textContent = data.contact.headline;
+    var waHref = 'https://api.whatsapp.com/send?phone=' + data.contact.whatsappPhone + '&text=' + encodeURIComponent(data.contact.whatsappMessage);
+    document.querySelectorAll('.js-whatsapp-link').forEach(function(a) { a.href = waHref; });
+
+    var telLink = document.getElementById('contact-phone-tel');
+    telLink.href = 'tel:+' + data.contact.whatsappPhone;
+    telLink.textContent = data.contact.phone;
+
+    var emailLink = document.getElementById('contact-phone-email');
+    emailLink.href = 'mailto:' + data.contact.email;
+    emailLink.textContent = data.contact.email;
+
+    document.getElementById('social-instagram').href = data.contact.social.instagram;
+    document.getElementById('social-facebook').href = data.contact.social.facebook;
+    document.getElementById('social-youtube').href = data.contact.social.youtube;
+    document.getElementById('social-vimeo').href = data.contact.social.vimeo;
+  }
+
+  function startApp() {
     document.body.classList.add('loaded');
     if (!prefersReducedMotion) animateHero();
-  });
+    initScrollAnimations();
+    initNav();
+  }
+
+  fetch('./content/site.json')
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      renderContent(data);
+      if (document.readyState === 'complete') {
+        startApp();
+      } else {
+        window.addEventListener('load', startApp);
+      }
+    })
+    .catch(function(err) {
+      console.error('Failed to load site content', err);
+      if (document.readyState === 'complete') {
+        startApp();
+      } else {
+        window.addEventListener('load', startApp);
+      }
+    });
 
   /* ── HERO CINEMATIC ENTRANCE ── */
   function animateHero() {
@@ -992,108 +1040,112 @@ body.loaded { opacity: 1; }
   }
 
   /* ── SCROLL ANIMATIONS ── */
-  if (!prefersReducedMotion) {
-    gsap.registerPlugin(ScrollTrigger);
+  function initScrollAnimations() {
+    if (!prefersReducedMotion) {
+      gsap.registerPlugin(ScrollTrigger);
 
-    /* General fade-up — exclude gallery items and testimonials (staggered separately) */
-    document.querySelectorAll('.fade-up:not(.testimonial)').forEach(function(el) {
-      var delay = parseFloat(el.style.transitionDelay) || 0;
-      var isAbout = el.closest('#about');
-      gsap.to(el, {
-        scrollTrigger: { trigger: el, start: isAbout ? 'top 100%' : 'top 88%', toggleActions: 'play none none none' },
-        opacity: 1, y: 0,
-        duration: 0.9,
-        delay: delay,
-        ease: 'power2.out'
-      });
-    });
-
-    /* Safety: reveal about content after 1.2s regardless */
-    setTimeout(function() {
-      document.querySelectorAll('#about .fade-up').forEach(function(el) {
-        if (parseFloat(getComputedStyle(el).opacity) < 1) {
-          el.style.opacity = '1';
-          el.style.transform = 'none';
-        }
-      });
-    }, 1200);
-
-    /* Gallery columns — stagger */
-    var galleryCols = document.querySelectorAll('.gallery-col');
-    if (galleryCols.length) {
-      gsap.fromTo(galleryCols,
-        { opacity: 0, y: 40 },
-        {
-          scrollTrigger: { trigger: '.gallery-scroll-outer', start: 'top 85%', toggleActions: 'play none none none' },
+      /* General fade-up — exclude gallery items and testimonials (staggered separately) */
+      document.querySelectorAll('.fade-up:not(.testimonial)').forEach(function(el) {
+        var delay = parseFloat(el.style.transitionDelay) || 0;
+        var isAbout = el.closest('#about');
+        gsap.to(el, {
+          scrollTrigger: { trigger: el, start: isAbout ? 'top 100%' : 'top 88%', toggleActions: 'play none none none' },
           opacity: 1, y: 0,
-          duration: 1.0,
+          duration: 0.9,
+          delay: delay,
+          ease: 'power2.out'
+        });
+      });
+
+      /* Safety: reveal about content after 1.2s regardless */
+      setTimeout(function() {
+        document.querySelectorAll('#about .fade-up').forEach(function(el) {
+          if (parseFloat(getComputedStyle(el).opacity) < 1) {
+            el.style.opacity = '1';
+            el.style.transform = 'none';
+          }
+        });
+      }, 1200);
+
+      /* Gallery columns — stagger */
+      var galleryCols = document.querySelectorAll('.gallery-col');
+      if (galleryCols.length) {
+        gsap.fromTo(galleryCols,
+          { opacity: 0, y: 40 },
+          {
+            scrollTrigger: { trigger: '.gallery-scroll-outer', start: 'top 85%', toggleActions: 'play none none none' },
+            opacity: 1, y: 0,
+            duration: 1.0,
+            stagger: 0.18,
+            ease: 'power2.out'
+          }
+        );
+      }
+
+      /* Testimonials — stagger */
+      var testimonials = document.querySelectorAll('.testimonial.fade-up');
+      if (testimonials.length) {
+        gsap.to(testimonials, {
+          scrollTrigger: { trigger: '.testimonials-grid', start: 'top 85%', toggleActions: 'play none none none' },
+          opacity: 1, y: 0,
+          duration: 0.9,
           stagger: 0.18,
           ease: 'power2.out'
-        }
-      );
-    }
+        });
+      }
 
-    /* Testimonials — stagger */
-    var testimonials = document.querySelectorAll('.testimonial.fade-up');
-    if (testimonials.length) {
-      gsap.to(testimonials, {
-        scrollTrigger: { trigger: '.testimonials-grid', start: 'top 85%', toggleActions: 'play none none none' },
-        opacity: 1, y: 0,
-        duration: 0.9,
-        stagger: 0.18,
-        ease: 'power2.out'
+    } else {
+      document.querySelectorAll('.fade-up').forEach(function(el) {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
       });
     }
-
-  } else {
-    document.querySelectorAll('.fade-up').forEach(function(el) {
-      el.style.opacity = '1';
-      el.style.transform = 'none';
-    });
   }
 
-  /* ── PILL NAV + LOGO — show on scroll ── */
-  var pillWrap  = document.querySelector('.nav-pill-wrap');
-  var logoNav   = document.querySelector('.site-logo-nav');
-  window.addEventListener('scroll', function() {
-    if (window.scrollY > 80) {
-      pillWrap.classList.add('visible');
-      if (logoNav) logoNav.classList.add('visible');
-    } else {
-      pillWrap.classList.remove('visible');
-      if (logoNav) logoNav.classList.remove('visible');
-    }
-  }, { passive: true });
+  /* ── NAV ── */
+  function initNav() {
+    /* PILL NAV + LOGO — show on scroll */
+    var pillWrap  = document.querySelector('.nav-pill-wrap');
+    var logoNav   = document.querySelector('.site-logo-nav');
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 80) {
+        pillWrap.classList.add('visible');
+        if (logoNav) logoNav.classList.add('visible');
+      } else {
+        pillWrap.classList.remove('visible');
+        if (logoNav) logoNav.classList.remove('visible');
+      }
+    }, { passive: true });
 
-  /* ── TUBELIGHT NAV — active tracking ── */
-  var pillLinks = document.querySelectorAll('.nav-pill-link');
-  var sections  = document.querySelectorAll('section[id]');
+    /* TUBELIGHT NAV — active tracking */
+    var pillLinks = document.querySelectorAll('.nav-pill-link');
+    var sections  = document.querySelectorAll('section[id]');
 
-  /* Default active = home (hero) */
-  if (pillLinks[0]) pillLinks[0].classList.add('active');
+    /* Default active = home (hero) */
+    if (pillLinks[0]) pillLinks[0].classList.add('active');
 
-  /* Update on scroll with IntersectionObserver */
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (!entry.isIntersecting) return;
-      var id = entry.target.id;
-      pillLinks.forEach(function(link) {
-        var matches = link.getAttribute('href') === '#' + id;
-        link.classList.toggle('active', matches);
+    /* Update on scroll with IntersectionObserver */
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        var id = entry.target.id;
+        pillLinks.forEach(function(link) {
+          var matches = link.getAttribute('href') === '#' + id;
+          link.classList.toggle('active', matches);
+        });
+      });
+    }, { threshold: 0, rootMargin: '-5% 0px -45% 0px' });
+
+    sections.forEach(function(s) { observer.observe(s); });
+
+    /* Also update on click immediately */
+    pillLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        pillLinks.forEach(function(l) { l.classList.remove('active'); });
+        link.classList.add('active');
       });
     });
-  }, { threshold: 0, rootMargin: '-5% 0px -45% 0px' });
-
-  sections.forEach(function(s) { observer.observe(s); });
-
-  /* Also update on click immediately */
-  pillLinks.forEach(function(link) {
-    link.addEventListener('click', function() {
-      pillLinks.forEach(function(l) { l.classList.remove('active'); });
-      link.classList.add('active');
-    });
-  });
-
+  }
 
 })();
 </script>
